@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <script src="https://cdn.tailwindcss.com"></script>
+<title>STUDENT AND FACULTY ATTEDENCE</title>
+  <style>
+        input#name:invalid:focus{
+            border:2px solid red;
+            text-align: center;
+            text-shadow: 0px;
+        
+        }
+    </style>
+</head>
+<body>
+    <div class="flex mx-auto Justify-content:center Align-content:center"><img src="https://sreyas.ac.in/wp-content/uploads/2022/03/sreyas-college-logo-.png" class="attachment-large size-large wp-image-47582" alt="sreyas college logo" loading="lazy"
+               srcset="https://sreyas.ac.in/wp-content/uploads/2022/03/sreyas-college-logo-.png 697w, https://sreyas.ac.in/wp-content/uploads/2022/03/sreyas-college-logo--300x69.png 300w, https://sreyas.ac.in/wp-content/uploads/2022/03/sreyas-college-logo--320x74.png 320w, https://sreyas.ac.in/wp-content/uploads/2022/03/sreyas-college-logo--480x111.png 480w" sizes="(max-width: 697px) 100vw, 697px" width="697" height="161">
+    <img src="https://sreyas.ac.in/wp-content/uploads/2022/03/all-icons-222-768x176.png" class="attachment-medium_large size-medium_large wp-image-47623" alt="All affiliated logo" loading="lazy" srcset="https://sreyas.ac.in/wp-content/uploads/2022/03/all-icons-222-768x176.png 768w, https://sreyas.ac.in/wp-content/uploads/2022/03/all-icons-222-300x69.png 300w, https://sreyas.ac.in/wp-content/uploads/2022/03/all-icons-222-1024x234.png 1024w,
+               https://sreyas.ac.in/wp-content/uploads/2022/03/all-icons-222-1536x352.png 1536w, https://sreyas.ac.in/wp-content/uploads/2022/03/all-icons-222-2048x469.png 2048w, https://sreyas.ac.in/wp-content/uploads/2022/03/all-icons-222-320x73.png 320w, https://sreyas.ac.in/wp-content/uploads/2022/03/all-icons-222-480x110.png 480w, https://sreyas.ac.in/wp-content/uploads/2022/03/all-icons-222-800x183.png 800w, https://sreyas.ac.in/wp-content/uploads/2022/03/all-icons-222-900x206.png 900w" sizes="(max-width: 768px) 100vw, 768px" width="768" height="176"mx-auto >
+    </div>
+     <div class="relative flex min-h-screen flex-col justify-center overflow-hidden py-6 bg-gradient-to-r from-[#ecfeff] to-[#083344] ">
+      <div class=" flex mx-auto relative bg-gray-200 rounded-lg border-2 border-white-200 w-[40%] px-6 pb-5 shadow-xl">
+     <div class="mx-auto max-w-md">
+                 <h2 class="text-2xl  text-center font-bold my-5">
+                          ATTEDENCE LOGIN 
+                  </h2>
+                     <div class="divide-y  divide-gray-300/50">
+                     <div class="space-y-6 text-base leading-7 text-ray-600">
+                    <form>
+                         <div class="flex mx-auto content-between ">
+                            <button type="button" id="STUDENT" class="w-fit rounded-lg shadow-lg px-5 py-3 bg-white-500 text-black hover:bg-green-400 focus:outline-none focus block">STUDENT</button>
+                       <button type="button" id="STAFF"class="w-fit rounded-lg shadow-lg px-5 py-3 bg-white-500 text-black hover:bg-green-400 focus:outline-none focus block">STAFF</button>
+                     </div>
+                  </form>
+                 </div>
+               </div>
+          </div>
+       </div>
+      
+     </div>
+<script>
+        var button = document.getElementById('STAFF');
+        button.onclick=()=>{
+        location.assign('/faculty.html');
+}
+        var button = document.getElementById('STUDENT');
+        button.onclick=()=>{
+        location.assign('/student.html');
+}
+</script>
+</body>
+<footer>
+  <div class="flex mx-auto text-center text-black ">  
+                  <p>
+                  coppyright 2023 blue&shark pvt
+                   </p>
+     </div>
+</footer>
+</html>
