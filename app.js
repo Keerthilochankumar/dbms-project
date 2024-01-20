@@ -1,54 +1,119 @@
-const express = require('express')
-const app= express()
+const express = require('express');
+const app = express();
 const bodyParser = require("body-parser");
 const path = require("path");
-const { students , studentAttendence , facultyAttendence} = require('./models')
-var cors = require('cors');
-const { clear } = require('console');
-const faculty = require('./models/faculty');
+const cors = require('cors');
+const {Student,STUDENTATTENDANCE,Faculty,FACULTYATTENDANCE} = require('./models')
+app.use(express.urlencoded());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "/")));
-app.use(cors())
+app.use(cors());
+app.get('/', (req, res) => {
+  return res.redirect('index.html');
+});
 
-app.get('/',(req,res)=>{
-  return res.redirect('index.html')
-})
-app.get('/student',(req,res)=>{
-return res.redirect('student.html')
-})
-app.get('/faculty',(req,res)=>{
-return res.redirect('faculty.html')
-})
-app.get('/val',async(req,res)=>{
-const stu = req.query.student;
-const st_pass=req.query.password;
-const name=req.query.name;
-const dept=req.query.dept;
-const year=req.query.year;
-console.log(stu,st_pass,name,dept,year)
-const val = await students.create({sid:stu,password:st_pass,name:name,dept:dept,year:year})
-console.log(val);
-})
-//data from student form
-app.get('/student-login',async (req,res)=>{
-const stu = req.query.student;
-const st_pass=req.query.password;
-students.findOne({sid:stu , password:st_pass}).then(async(user)=>{
-  const val = await studentAttendence.create({sid:stu , login:new Date()})
-console.log(val);
+app.get('/student', (req, res) => {
+  return res.redirect('student.html');
+});
+
+app.get('/faculty', (req, res) => {
+  return res.redirect('faculty.html');
+});
+app.get('/d', (req, res) => {
+  return res.redirect('display.html');
+});
+
+app.get('/fetch-data', async(req , res)=>{
+  const data = await STUDENTATTENDANCE.findAll()
+  console.log(data);
+  if(data){
+  res.send(JSON.stringify(data)).status(200);
+  }
+else{
+  return "no data available"
 }
-)
-return res.send("successful")
+});
+app.get('/fetch-data-fac', async(req , res)=>{
+  const data = await FACULTYATTENDANCE.findAll()
+  console.log(data);
+  if(data){
+  res.send(JSON.stringify(data)).status(200);
+  }
+else{
+  return "no data available"
+}});
+
+app.get('/val', async (req, res) => {
+  try {
+    const stu = req.query.student;
+    const st_pass = req.query.password;
+    const name = req.query.name;
+    const dept = req.query.dept;
+    const year = req.query.year;
+
+    console.log(stu, st_pass, name, dept, year);
+    const val = await Student.create({ sid: stu, password: st_pass, name: name, dept: dept, year: year });
+    console.log(val);
+    res.send("Successfully added student");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error adding student");
+  }
+});
+app.get('/valf', async (req, res) => {
+  try {
+    const faculty = req.query.faculty;
+    const fa_pass = req.query.password;
+    const name = req.query.name;
+    const dept = req.query.dept;
+    console.log(faculty, fa_pass, name, dept);
+    const val = await Faculty.create({ fid: faculty, password: fa_pass, name: name, dept: dept});
+    console.log(val);
+    res.send(val).status(200);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error adding student");
+  }
 });
 
-//data from faculty form
-app.get('/faculty-login',(req,res)=>{
-const fac = req.query.sid;
-console.log(fac);
-const fac_pass= req.query.password;
-console.log(fac_pass);
-return res.send("successful")
+
+app.post('/student-login', async (req, res) => {
+  try {
+    const stu = req.body.student;
+    const st_pass = req.body.password;
+    console.log(stu, st_pass);
+    const user = await Student.findOne({ where:{sid: stu, password: st_pass }});
+     if (user) {
+       const val = await STUDENTATTENDANCE.create({ sid: stu});
+      res.send("Successful student login");
+     } else {
+       res.status(401).send("Invalid credentials");
+     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error during student login");
+  }
 });
+
+app.post('/faculty-login', async(req, res) => {
+  try{const fac = req.body.fid;
+  const fac_pass = req.body.password;
+  const user= await Faculty.findOne({where:{fid:fac,password:fac_pass}});
+  if(user){
+      const val= await FACULTYATTENDANCE.create({fid:fac})
+      console.log(val);
+      res.send("successful faculty login");
+        }
+    else{
+            req.status(401).send("Invalid credentials");
+        }
+   }catch(error){
+        console.log(error);
+        res.status(500).send("Error during facultu login");
+        }
+});
+
+
 app.get('/fac', async (req, res) => {
   try {
     const stu = req.query.faculty;
@@ -58,21 +123,20 @@ app.get('/fac', async (req, res) => {
 
     console.log(stu, st_pass, name, dept);
 
-    // Use await with faculty.create and handle the result
-    const newFaculty = await faculty.create({
+    const newFaculty = await faculties.create({
       fid: stu,
       password: st_pass,
       fname: name,
-      dept: dept
+      dept,
     });
 
-    res.status(200).send("yo its working"); // Send response inside try block
-  } catch (err) {
-    console.error(err);
-    res.status(400).send("not working");
+    res.status(200).send("Successfully added faculty");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error adding faculty");
   }
 });
 
-app.listen(3000,()=>{
-console.log("started at  3000");
-})
+app.listen(3000, () => {
+  console.log("Server started at port 3000");
+});
