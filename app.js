@@ -8,8 +8,6 @@ app.use(express.urlencoded());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "/")));
 app.use(cors());
-const today=new Date()
-
 app.get('/', (req, res) => {
   return res.redirect('index.html');
 });
@@ -21,6 +19,29 @@ app.get('/student', (req, res) => {
 app.get('/faculty', (req, res) => {
   return res.redirect('faculty.html');
 });
+app.get('/d', (req, res) => {
+  return res.redirect('display.html');
+});
+
+app.get('/fetch-data', async(req , res)=>{
+  const data = await STUDENTATTENDANCE.findAll()
+  console.log(data);
+  if(data){
+  res.send(JSON.stringify(data)).status(200);
+  }
+else{
+  return "no data available"
+}
+});
+app.get('/fetch-data-fac', async(req , res)=>{
+  const data = await FACULTYATTENDANCE.findAll()
+  console.log(data);
+  if(data){
+  res.send(JSON.stringify(data)).status(200);
+  }
+else{
+  return "no data available"
+}});
 
 app.get('/val', async (req, res) => {
   try {
@@ -48,7 +69,7 @@ app.get('/valf', async (req, res) => {
     console.log(faculty, fa_pass, name, dept);
     const val = await Faculty.create({ fid: faculty, password: fa_pass, name: name, dept: dept});
     console.log(val);
-    res.send("Successfully added student");
+    res.send(val).status(200);
   } catch (error) {
     console.error(error);
     res.status(500).send("Error adding student");

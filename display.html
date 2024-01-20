@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>Database Display</title>
+</head>
+<body class="w-full h-min-screen overflow-y-hidden bg-gradient-to-r from-[#ecfeff] to-[#083344]">
+    <div class="flex mx-auto justify-content:center align-content:center">
+        <img src="https://sreyas.ac.in/wp-content/uploads/2022/03/sreyas-college-logo-.png" class="attachment-large size-large wp-image-47582" alt="Sreyas College Logo" loading="lazy"
+            srcset="https://sreyas.ac.in/wp-content/uploads/2022/03/sreyas-college-logo-.png 697w, https://sreyas.ac.in/wp-content/uploads/2022/03/sreyas-college-logo--300x69.png 300w, https://sreyas.ac.in/wp-content/uploads/2022/03/sreyas-college-logo--320x74.png 320w, https://sreyas.ac.in/wp-content/uploads/2022/03/sreyas-college-logo--480x111.png 480w"
+            sizes="(max-width: 697px) 100vw, 697px" width="697" height="161">
+        <img src="https://sreyas.ac.in/wp-content/uploads/2022/03/all-icons-222-768x176.png" class="attachment-medium_large size-medium_large wp-image-47623" alt="All Affiliated Logo" loading="lazy"
+            srcset="https://sreyas.ac.in/wp-content/uploads/2022/03/all-icons-222-768x176.png 768w, https://sreyas.ac.in/wp-content/uploads/2022/03/all-icons-222-300x69.png 300w, https://sreyas.ac.in/wp-content/uploads/2022/03/all-icons-222-1024x234.png 1024w, https://sreyas.ac.in/wp-content/uploads/2022/03/all-icons-222-1536x352.png 1536w, https://sreyas.ac.in/wp-content/uploads/2022/03/all-icons-222-2048x469.png 2048w, https://sreyas.ac.in/wp-content/uploads/2022/03/all-icons-222-320x73.png 320w, https://sreyas.ac.in/wp-content/uploads/2022/03/all-icons-222-480x110.png 480w, https://sreyas.ac.in/wp-content/uploads/2022/03/all-icons-222-800x183.png 800w, https://sreyas.ac.in/wp-content/uploads/2022/03/all-icons-222-900x206.png 900w"
+            sizes="(max-width: 768px) 100vw, 768px" width="768" height="176" mx-auto>
+    </div>
+    <div class="val" id="val"></div>
+
+    <script>
+        $.ajax({
+            url: 'http://localhost:3000/fetch-data',
+            success: function (data) {
+                const ele = document.getElementById('val');
+                const lst = JSON.parse(data);
+                const table = document.createElement('table');
+                table.classList.add('text-black', 'border-collapse', 'w-[70%]');
+                const headers = ['ID', 'SID', 'CreatedAt'];
+                const headerRow = document.createElement('tr');
+                headers.forEach(headerText => {
+                    const th = document.createElement('th');
+                    th.textContent = headerText;
+                    th.classList.add('border', 'p-2');
+                    headerRow.appendChild(th);
+                });
+                table.appendChild(headerRow);
+                lst.forEach(item => {
+                    const { id, sid, createdAt } = item;
+                    const row = document.createElement('tr');
+                    row.classList.add('border', 'p-2');
+                    [id, sid, createdAt].forEach(cellData => {
+                        const cell = document.createElement('td');
+                        cell.textContent = cellData;
+                        row.appendChild(cell);
+                    });
+
+                    table.appendChild(row);
+                });
+
+                ele.appendChild(table);
+            }
+        });
+$.ajax({
+            url: 'http://localhost:3000/fetch-data-fac',
+            success: function (data) {
+                const ele = document.getElementById('val');
+                const lst = JSON.parse(data);
+                const table = document.createElement('table');
+                table.classList.add('text-black', 'border-collapse', 'w-[70%]');
+                const headers = ['ID', 'fID', 'CreatedAt'];
+                const headerRow = document.createElement('tr');
+                headers.forEach(headerText => {
+                    const th = document.createElement('th');
+                    th.textContent = headerText;
+                    th.classList.add('border', 'p-2');
+                    headerRow.appendChild(th);
+                });
+                table.appendChild(headerRow);
+                lst.forEach(item => {
+                    const { id, fid, createdAt } = item;
+                    const row = document.createElement('tr');
+                    row.classList.add('border', 'p-2');
+                    [id, fid, createdAt].forEach(cellData => {
+                        const cell = document.createElement('td');
+                        cell.textContent = cellData;
+                        row.appendChild(cell);
+                    });
+
+                    table.appendChild(row);
+                });
+
+                ele.appendChild(table);
+            }
+        });
+    </script>
+</body>
+</html>
